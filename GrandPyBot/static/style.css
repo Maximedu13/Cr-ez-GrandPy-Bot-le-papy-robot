@@ -1,0 +1,29 @@
+*{
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    outline: none;
+}
+
+.row img{
+    height: 70px;
+    width: 70px;
+    border-radius: 5px;
+}
+
+.row legend{
+    font-size: 90%;
+ 
+}
+
+input[id=your-question]{
+    background:rgba(#255, #255, #255, 0.8);
+}
+
+
+
+.text-faded img{
+height: 30px;
+width:30px;
+}
