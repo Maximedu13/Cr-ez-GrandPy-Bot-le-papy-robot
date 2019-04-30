@@ -9,19 +9,37 @@
   <meta name="author" content="">
 
   <title>GrandPy Bot</title>
-  
+  <!-- FAVICON -->
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/favicon/favicon.ico') }}">
   <!-- Bootstrap core CSS -->
-  
   <link href="{{ url_for('static', filename='bootstrap/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
   <!-- Custom fonts for this template -->
-  <link href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i"
+    rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i" rel="stylesheet">
 
   <!-- Custom styles for this template -->
   <link href="{{ url_for('static', filename='bootstrap/business-casual.css') }}" rel="stylesheet">
   <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
-
-
+  <script src="http://code.jquery.com/jquery-3.3.1.js"></script>
+  <script>
+    $(function () {
+      $('button').click(function () {
+        $.ajax({
+          url: '/search',
+          data: $('form').serialize(),
+          type: 'POST',
+          success: function (response) {
+            $(".mb-0").html(response);
+          },
+          error: function (error) {
+            console.log(error);
+          }
+        });
+      });
+    });
+  </script>
 </head>
 <header>
   <h1 class="site-heading text-center text-white d-none d-lg-block">
@@ -39,7 +57,8 @@
   <nav class="navbar navbar-expand-lg navbar-dark py-lg-4" id="mainNav">
     <div class="container">
       <a class="navbar-brand text-uppercase text-expanded font-weight-bold d-lg-none" href="#">Start Bootstrap</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+        aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
@@ -57,20 +76,22 @@
   <section class="page-section clearfix">
     <div class="container">
       <div class="intro">
-        <img class="intro-img img-fluid mb-3 mb-lg-0 rounded" src="{{ url_for('static', filename='images/Le_Père_Fouras.jpg') }}" alt="">
+        <img class="intro-img img-fluid mb-3 mb-lg-0 rounded"
+          src="{{ url_for('static', filename='images/Le_Père_Fouras.jpg') }}" alt="">
         <div class="intro-text left-0 text-center bg-faded p-5 rounded">
           <h2 class="section-heading mb-4">
             <span class="section-heading-lower">Pose moi une question</span>
           </h2>
-          <form method="post" action="../search">
+          <form method="post" action="" method="post" role="form">
             <div class="input-group mb-3">
               <div class="input-group-prepend">
                 <span class="input-group-text" id="basic-addon1">Ici</span>
               </div>
-              <input type="text" class="form-control" placeholder="..." aria-label="Username" aria-describedby="basic-addon1" name="search" id="search">
+              <input type="text" class="form-control" placeholder="..." aria-label="Username"
+                aria-describedby="basic-addon1" name="search" id="search" required>
             </div>
             <div class="intro-button mx-auto">
-              <input type="submit" class="btn btn-primary btn-xl" id="submit" value="Lancer la recherche" name="submit">
+              <button class="btn btn-lg btn-primary btn-block" type="button">Lancer la recherche</button>
             </div>
           </form>
         </div>
@@ -83,11 +104,8 @@
       <div class="row">
         <div class="col-xl-9 mx-auto">
           <div class="cta-inner text-center rounded">
-            <h2 class="section-heading mb-4">
-              <span class="section-heading-upper">Our Promise</span>
-              <span class="section-heading-lower">To You</span>
-            </h2>
-            <p class="mb-0">When you walk into our shop to start your day, we are dedicated to providing you with friendly service, a welcoming atmosphere, and above all else, excellent products made with the highest quality ingredients. If you are not satisfied, please let us know and we will do whatever we can to make things right!</p>
+            <img src="{{ url_for('static', filename='images/5777749235708dcfedbc0963.jpg') }}">
+            <p class="mb-0">Votre question et ma réponse s'afficheront ici.</p>
           </div>
         </div>
       </div>
@@ -96,12 +114,16 @@
   <footer class="footer text-faded text-center py-5">
     <div class="container">
       <p class="m-0 small">Maxime Jacquette 2019</p>
-      <br/>
-      <a href="https://github.com/Maximedu13" target="_blank"><img src="{{ url_for('static', filename='images/25231.svg') }}"></a>
+      <br />
+      <a href="https://github.com/Maximedu13" target="_blank"><img
+          src="{{ url_for('static', filename='images/733553.svg') }}"></a>
+      <a href="https://twitter.com/Maxime19781073" target="_blank"><img
+        src="{{ url_for('static', filename='images/145812.svg') }}"></a>
     </div>
   </footer>
 
   <!-- Bootstrap core JavaScript -->
+
   <script src="{{ url_for('static', filename='bootstrap/vendor/jquery/jquery.min.js') }}"></script>
   <script src="{{ url_for('static', filename='bootstrap/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
   <script src="{{ url_for('static', filename='bootstrap/index.js') }}"></script>

@@ -7,21 +7,15 @@
 }
 
 .row img{
-    height: 70px;
-    width: 70px;
-    border-radius: 5px;
+    height: 200px;
+    width: 300px;
+    border-radius: 3px;
 }
 
-.row legend{
-    font-size: 90%;
- 
-}
 
 input[id=your-question]{
     background:rgba(#255, #255, #255, 0.8);
 }
-
-
 
 .text-faded img{
 height: 30px;
