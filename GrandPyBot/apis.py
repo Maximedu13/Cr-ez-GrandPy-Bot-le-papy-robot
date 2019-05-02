@@ -22,7 +22,7 @@ class Wiki():
 
 class GoogleMaps():
     def __init__(self):
-        self.key_api = "AIzaSyAvKqgiwO0HqqCVxdRgeiJG8yXbM9k4UhU"
+        self.key_api = "AIzaSyDEexokSoTAXo8lWdcuCF1ia1cw8m2fcRk"
     
     def get_position(self, question):
         parameters = {
