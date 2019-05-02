@@ -44,7 +44,6 @@ class GoogleMaps():
                 "latitude": lat,
                 "longitude": lng
             }
-            print(info["latitude"])
             return info
 
         except IndexError:
