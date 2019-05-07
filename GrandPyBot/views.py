@@ -12,17 +12,6 @@ app = Flask(__name__)
 app.config.from_object('config')
 # To get one variable, tape app.config['MY_VARIABLE']
 
-@app.route('/signUp' , methods=['GET', 'POST'])
-def signUp():
-    return render_template('startbootstrap/signUp.html')
-
-
-@app.route('/signUpUser', methods=['POST'])
-def signUpUser():
-    user =  request.form['username']
-    password = request.form['password']
-    return json.dumps({'status':'OK','user':user,'pass':password})
-
 @app.route('/search', methods=['POST'])
 def search():
     question = request.form['search']
