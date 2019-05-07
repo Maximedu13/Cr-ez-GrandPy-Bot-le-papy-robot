@@ -42,9 +42,9 @@ def search():
     for key,value in gm.get_position(the_question).items():
         list_values.append(value)
     gmaps.configure(api_key=gm.key_api)
-
     print(the_question)
     print(google_maps_question)
+    print(list_values[1], list_values[2])
     print("https://www.google.com/maps/place/" + google_maps_question + str('/') +  str(list_values[1]) + str(",") + str(list_values[2])) 
     try:
         for key, value in wiki.get_wiki_result(the_question).items():
@@ -54,9 +54,9 @@ def search():
         + "<em>" + (random.choice(msg_fails)) + question + "</em>"
    
     if value:
-        return "<b>" + "Vous m‘avez posé comme question : " + request.form['search'] + "</b>" + "<br/>"  \
-        + "<em>" + (random.choice(GrdPy_msg)) + "</em>" + value +  "<br/>" + \
-        '<div style="width: 700px;position: relative;"><iframe width="700" height="440" src="https://www.google.com/maps/place/" + google_maps_question + "/" +  str(list_values[1]) + "</div>"'
+        return "<script>initMap(" + str(list_values[1]) + ',' + str(list_values[2]) + ',' + "'" + google_maps_question + "'" +");display_map(); </script>" + "<b>" + "Vous m‘avez posé comme question : " + request.form['search'] + "</b>" + "<br/>" \
+        + "<em>" + (random.choice(GrdPy_msg)) + "</em>" + value +  "<br/>" 
+        
     else:
         return "<b>" + "Vous m‘avez posé comme question : " + request.form['search'] + "</b>" + "<br/>"  \
             + "<em>" + (random.choice(msg_fails)) + question + "</em>" + \
