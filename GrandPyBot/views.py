@@ -5,7 +5,6 @@ import json
 import random
 from GrandPyBot.apis import Wiki, GoogleMaps
 from GrandPyBot.messages import Message
-import gmaps
 
 app = Flask(__name__)
 
@@ -26,8 +25,6 @@ def signUpUser():
 
 @app.route('/search', methods=['POST'])
 def search():
-    """data = request.data.decode('utf-8')
-    print(request.data)"""
     question = request.form['search']
     wiki=Wiki()
     message = Message()
@@ -41,7 +38,6 @@ def search():
     list_values = []
     for key,value in gm.get_position(the_question).items():
         list_values.append(value)
-    gmaps.configure(api_key=gm.key_api)
     print(the_question)
     print(google_maps_question)
     print(list_values[1], list_values[2])
