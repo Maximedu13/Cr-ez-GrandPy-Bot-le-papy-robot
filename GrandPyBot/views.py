@@ -23,25 +23,28 @@ def search():
     google_maps_question = message.parse_google_maps(the_question)
     gm = GoogleMaps()
     gm.get_position(the_question)
-    print(gm.get_position(the_question))
-    list_values = []
-    for key,value in gm.get_position(the_question).items():
-        list_values.append(value)
     print(the_question)
     print(google_maps_question)
-    print(list_values[1], list_values[2])
-    print("https://www.google.com/maps/place/" + google_maps_question + str('/') +  str(list_values[1]) + str(",") + str(list_values[2])) 
+    print(gm.get_position(the_question))
+    list_values = []
+    
+    for key,value in gm.get_position(the_question).items():
+        list_values.append(value)
+    return_to_adress = message.return_to_adress(str(list_values[0]))
+    print(return_to_adress)
+    
     try:
         for key, value in wiki.get_wiki_result(the_question).items():
             pass
+    
     except KeyError:
         return "<b>" + "Vous m‘avez posé comme question : " + request.form['search'] + "</b>" + "<br/>"  \
-        + "<em>" + (random.choice(msg_fails)) + question + "</em>"
-   
+        + "<em>" + (random.choice(msg_fails)) + return_to_adress + "</em>"
+    
     if value:
-        return "<script>initMap(" + str(list_values[1]) + ',' + str(list_values[2]) + ',' + "'" + google_maps_question + "'" +");display_map(); </script>" + "<b>" + "Vous m‘avez posé comme question : " + request.form['search'] + "</b>" + "<br/>" \
+        return "<script>initMap(" + str(list_values[1]) + ',' + str(list_values[2]) + ',' + "'" + the_question + "'" +");display_map(); </script>" + "<b>" + "Vous m‘avez posé comme question : " + request.form['search'] + "</b>" + "<br/>" \
         + "<em>" + (random.choice(GrdPy_msg)) + "</em>" + value +  "<br/>" 
-        
+    
     else:
         return "<b>" + "Vous m‘avez posé comme question : " + request.form['search'] + "</b>" + "<br/>"  \
             + "<em>" + (random.choice(msg_fails)) + question + "</em>" + \

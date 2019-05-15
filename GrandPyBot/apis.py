@@ -27,10 +27,12 @@ class GoogleMaps():
     def get_position(self, question):
         parameters = {
         'address': " ".join(question),
-        'key': self.key_api
+        'key': self.key_api,
+        "language" : 'fr', 
+        "region" : "fr"
         }
 
-        response = get('https://maps.googleapis.com/maps/api/geocode/json',
+        response = get('https://maps.googleapis.com/maps/api/geocode/json?',
         params=parameters)
 
         data = response.json()

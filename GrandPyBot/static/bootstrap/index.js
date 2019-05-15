@@ -20,8 +20,7 @@ function initMap(lat, long, loc) {
         });
     var marker = new google.maps.Marker({
         position: city,
-        map: map,
-        title: "la ville"
+        map: map
     });
     marker.addListener('click', function() {
         infowindow.open(map, marker);

@@ -31,6 +31,10 @@ class Input_and_Parse_Test(unittest.TestCase):
     def test_city(self):
         messages = "panama (ville)"
         self.assertEqual(messages, self.parse_msg("Salut GrandPy ! Connais tu Panama ville ?"))
+    
+    def new_york(self):
+        messages = "New York"
+        self.assertEqual(messages, self.parse_msg("new york"))
 
 class Wiki_Api(unittest.TestCase):
     wiki = Wiki()
@@ -49,6 +53,11 @@ class Google_Maps(unittest.TestCase):
     def test_streer(self):
         messages = "Rue+Chateaubriand"
         self.assertEqual(messages, self.parse_gmaps("rue chateaubriand"))
+
+    def test_openclassrooms(self):
+        messages = "Open"
+        self.assertEqual(messages, self.parse_gmaps("rue chateaubriand"))
+
 
 if __name__ == '__main__': 
     unittest.main()

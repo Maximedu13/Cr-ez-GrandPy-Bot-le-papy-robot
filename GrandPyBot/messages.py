@@ -16,6 +16,7 @@ class Message():
 
     def parse_msg(self, message):
         list_word_input = []
+        # LOWER
         message = message.lower()
         message = message.replace("'", " ")
         for word in message.split(" "):
@@ -28,7 +29,11 @@ class Message():
                 list_word_input.append(word)
         for i in range(1):
             message = " ".join(list_word_input)
-        return message
+        return message.title()
+
+    def return_to_adress(self, message):
+        # SPLIT 
+        message = message[:message.find(",")]
 
     def parse_google_maps(self, message):
         list_word_input = []
