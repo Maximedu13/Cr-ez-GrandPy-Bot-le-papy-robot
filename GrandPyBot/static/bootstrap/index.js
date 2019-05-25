@@ -1,7 +1,7 @@
-//$(function() { $(':submit').on('click', function() { var usr_query = document.getElementById('search').value; if (usr_query !== "") { document.write("Vous avez saisi :" + usr_query); loading(); ajaxPost(usr_query, data_treat); } }); })
 var lat;
 var long;
 
+//GET THE MAP
 function initMap(lat, long, loc) {
     var city = {
         lat: lat,
@@ -26,6 +26,8 @@ function initMap(lat, long, loc) {
         infowindow.open(map, marker);
       });
 }
+
+//DISPLAY THE MAP
 function display_map(){
     $("#map").show();
 }

@@ -1,3 +1,4 @@
+"""run the app"""
 #! /usr/bin/env python
 from GrandPyBot import app
 
