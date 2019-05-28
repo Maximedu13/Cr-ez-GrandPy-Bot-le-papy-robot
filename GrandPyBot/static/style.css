@@ -1,30 +1,24 @@
-*{
-    user-select: none;
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
-    outline: none;
-}
-
-.row img{
+.row img {
     height: 200px;
     width: 300px;
     border-radius: 3px;
 }
 
 
-input[id=your-question]{
-    background:rgba(#255, #255, #255, 0.8);
+input[id=your-question] {
+    background: rgba(#255, #255, #255, 0.8);
 }
 
-.text-faded img{
-height: 30px;
-width:30px;
+.text-faded img {
+    height: 30px;
+    width: 30px;
 }
 
 /* Set the size of the div element that contains the map */
 #map {
-    height: 400px;  /* The height is 400 pixels */
-    width: 100%;  /* The width is the width of the web page */
+    height: 400px;
+    /* The height is 400 pixels */
+    width: 100%;
+    /* The width is the width of the web page */
     display: none;
-   }
+}

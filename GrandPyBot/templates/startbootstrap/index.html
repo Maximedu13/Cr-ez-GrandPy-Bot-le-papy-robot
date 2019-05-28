@@ -23,8 +23,24 @@
   <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
   <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
   <script>
+    //CLICK ON THE BUTTON "LAUNCH A SEARCH"
     $(function () {
-      $('button').click(function (){
+      $('button').click(function () {
+        $.ajax({
+          url: '/search',
+          data: $('form').serialize(),
+          type: 'POST',
+          success: function (response) {
+            $(".mb-0").html(response);
+          },
+          error: function (error) {
+            console.log(error);
+          },
+        });
+      });
+      //ENTER
+      $('form').submit(function (e) {
+        e.preventDefault();
         $.ajax({
           url: '/search',
           data: $('form').serialize(),
@@ -81,16 +97,16 @@
           <h2 class="section-heading mb-4">
             <span class="section-heading-lower">Pose moi une question</span>
           </h2>
-          <form method="post" action="" method="post" role="form">
+          <form method="post" action="">
             <div class="input-group mb-3">
               <div class="input-group-prepend">
                 <span class="input-group-text" id="basic-addon1">Ici</span>
               </div>
               <input type="text" class="form-control" placeholder="..." aria-label="Username"
-                aria-describedby="basic-addon1" name="search" id="search" required>
+                aria-describedby="basic-addon1" name="search" id="search">
             </div>
             <div class="intro-button mx-auto">
-              <button class="btn btn-lg btn-primary btn-block">Lancer la recherche</button>
+              <button class="btn btn-lg btn-primary btn-block" type="button">Lancer la recherche</button>
             </div>
           </form>
         </div>
