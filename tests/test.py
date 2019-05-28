@@ -3,6 +3,10 @@ import unittest
 import re
 from GrandPyBot.messages import Message
 from GrandPyBot.apis import Wiki, GoogleMaps
+from unittest.mock import MagicMock
+
+mock = MagicMock()
+print(mock.mock())
 
 class InputAndParseTest(unittest.TestCase):
     """class InputAndParseTest"""
@@ -88,8 +92,8 @@ class GoogleMapsApi(unittest.TestCase):
 
     def test_openclassrooms(self):
         """test Openclassrooms"""
-        messages = {'address': '7 Cité Paradis, 75010 Paris, France', 'latitude': 48.8747265, \
-        'longitude': 2.3505517}
+        messages = {'address': '7 Cité Paradis, 75010 Paris, France', 'latitude': 48.8748465, \
+        'longitude': 2.3504873}
         self.assertEqual(messages, self.g_m.get_position("Openclassrooms"))
 
 if __name__ == '__main__':

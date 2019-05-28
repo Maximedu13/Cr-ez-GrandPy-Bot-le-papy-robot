@@ -22,3 +22,14 @@ L'utilisateur tape "Salut GrandPy ! Est-ce que tu connais l'adresse d'OpenClassr
 Puis un nouveau message apparaît : "Bien sûr mon poussin ! La voici : 7 cité Paradis, 75010 Paris." En-dessous, une carte Google Maps apparaît également avec un marqueur indiquant l'adresse demandée.
 
 GrandPy envoie un nouveau message : "Mais t'ai-je déjà raconté l'histoire de ce quartier qui m'a vu en culottes courtes ? La cité Paradis est une voie publique située dans le 10e arrondissement de Paris. Elle est en forme de té, une branche débouche au 43 rue de Paradis, la deuxième au 57 rue d'Hauteville et la troisième en impasse. [En savoir plus sur Wikipedia]"
+
+## Utilisation de l'application
+Le site est consultable via le lien suivant : https://grandpybotte.herokuapp.com/
+
+## Prérequis
+Pour installer toutes les dépendances requises, vous pouvez utiliser la commande via la CLI : `pip install -r requirements.txt`
+
+#### Lancement de l'application
+```sh
+$ python3 run.py
+```
