@@ -26,7 +26,7 @@ class Wiki():
 class GoogleMaps():
     """ google maps api """
     def __init__(self):
-        self.key_api = ""
+        self.key_api = "AIzaSyDEexokSoTAXo8lWdcuCF1ia1cw8m2fcRk"
 
     def get_position(self, question):
         """ main method """
