@@ -9,7 +9,7 @@ function initMap(lat, long, loc) {
     };
     var map = new google.maps.Map(
         document.getElementById('map'), {
-            zoom: 10,
+            zoom: 11,
             center: city,
         });
     var contentString = 
@@ -30,4 +30,19 @@ function initMap(lat, long, loc) {
 //DISPLAY THE MAP
 function display_map(){
     $("#map").show();
+}
+
+//AJAX
+function call_ajax(){
+    $.ajax({
+        url: '/search',
+        data: $('form').serialize(),
+        type: 'POST',
+        success: function (response) {
+        $(".mb-0").html(response);
+        },
+        error: function (error) {
+        console.log(error);
+        },
+    });
 }

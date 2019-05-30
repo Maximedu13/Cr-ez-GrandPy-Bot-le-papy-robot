@@ -23,35 +23,15 @@
   <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
   <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
   <script>
-    //CLICK ON THE BUTTON "LAUNCH A SEARCH"
     $(function () {
+      //CLICK ON THE BUTTON "LAUNCH A SEARCH"
       $('button').click(function () {
-        $.ajax({
-          url: '/search',
-          data: $('form').serialize(),
-          type: 'POST',
-          success: function (response) {
-            $(".mb-0").html(response);
-          },
-          error: function (error) {
-            console.log(error);
-          },
-        });
+        call_ajax()
       });
       //ENTER
       $('form').submit(function (e) {
         e.preventDefault();
-        $.ajax({
-          url: '/search',
-          data: $('form').serialize(),
-          type: 'POST',
-          success: function (response) {
-            $(".mb-0").html(response);
-          },
-          error: function (error) {
-            console.log(error);
-          },
-        });
+        call_ajax()
       });
     });
   </script>

@@ -14,19 +14,19 @@ class Wiki():
         """ main method """
         try:
             wiki_page = WIKI_WIKI.page(question)
-
+            #print(wiki_page.sections)
             return {
                 "title": wiki_page.title,
-                "summary": wiki_page.summary
+                "summary": wiki_page.summary,
             }
 
-        except IndexError:
+        except:
             return "no result"
 
 class GoogleMaps():
     """ google maps api """
     def __init__(self):
-        self.key_api = "AIzaSyDEexokSoTAXo8lWdcuCF1ia1cw8m2fcRk"
+        self.key_api = ""
 
     def get_position(self, question):
         """ main method """
@@ -52,5 +52,5 @@ class GoogleMaps():
             }
             return info
 
-        except IndexError:
+        except:
             return "no result"
