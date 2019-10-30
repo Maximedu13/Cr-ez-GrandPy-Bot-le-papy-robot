@@ -1,6 +1,5 @@
 .row img {
-    height: 200px;
-    width: 300px;
+
     border-radius: 3px;
 }
 
@@ -21,4 +20,12 @@ input[id=your-question] {
     width: 100%;
     /* The width is the width of the web page */
     display: none;
+}
+
+.icons{
+    width:50px;
+}
+
+.weather{
+    width:150px;
 }

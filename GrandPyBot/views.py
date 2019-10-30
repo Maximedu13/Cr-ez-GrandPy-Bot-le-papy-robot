@@ -40,11 +40,12 @@ def search():
     g_m.get_position(the_question)
     list_values = []
     
-    the_weather, degrees = weather.get_the_weather(the_question)
-    print(the_weather)
-    print(degrees)
+    the_weather, degrees, wind = weather.get_the_weather(the_question)
+
     this_image = "../static/images/" + the_weather + ".svg"
-    print(this_image)
+    icon_temperature = "../static/images/119085.svg"
+    icon_wind = "../static/images/2151268.svg"
+
     # If google maps api returns something not null
     try:
         for key, value in g_m.get_position(the_question).items():
@@ -73,8 +74,9 @@ def search():
         return "<script>initMap(" + str(list_values[1]) + ',' + str(list_values[2]) + ',' + \
             "'" + the_question + "'" +");display_map(); </script>" + "<b>"  + \
             "Vous m‘avez posé comme question : " + request.form['search'] + "</b>" + "<br/>" + \
-            "<img src="+ this_image + "/>" + \
-            "<br/>" + "<b>" + str(degrees) + "</b>" + "°C" +"<br/>" \
+            "<img src="+ this_image + " class='weather' />" + \
+            "<br/>" + "<img src="+ icon_temperature + " class='icons'/>" + "<b>" + str(degrees) + "</b>" + "°C" + \
+            "<img src="+ icon_wind + " class='icons'/>" + "<b>" + " " +str(wind) + "</b>" + " km/h" + "<br/>" \
             + "<em>" + (random.choice(grd_py_msg)) + "</em>" + value +  "<br/>"
 
     # If it returns no information from media wiki, only from google maps (address)
