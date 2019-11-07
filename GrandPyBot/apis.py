@@ -2,6 +2,7 @@
 import wikipediaapi
 import requests
 import json
+import re
 from requests import get
 
 WIKI_WIKI = wikipediaapi.Wikipedia('fr')
@@ -16,14 +17,18 @@ class Wiki():
         """ main method """
         try:
             wiki_page = WIKI_WIKI.page(question)
-            #print(wiki_page.sections)
-            return {
-                "title": wiki_page.title,
-                "summary": wiki_page.summary,
-            }
+            # We want to get the history section
+            txt = "Histoire"
+            # The history section of Wikipedia is always followed by the section "Politics"
+            end = 'Politique et administration'
+            history_section = wiki_page.text\
+            [wiki_page.text.index(txt) + len(txt):wiki_page.text.index(end)]
+
+            
 
         except:
             return "no result"
+        return wiki_page.title, wiki_page.summary, history_section
 
 class GoogleMaps():
     """ google maps api """

@@ -129,12 +129,7 @@ p {
     margin-top: 3rem;
     position: absolute;
   }
-  .intro .intro-text .intro-button {
-    width: 100%;
-    left: 0;
-    position: absolute;
-    bottom: -2rem;
-  }
+  
 }
 
 @media (min-width: 1200px) {
