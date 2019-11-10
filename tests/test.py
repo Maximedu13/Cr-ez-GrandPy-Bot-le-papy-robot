@@ -1,9 +1,9 @@
 """unit tests"""
 import unittest
-from unittest.mock import patch
+from unittest.mock import patch, MagicMock
 import re
 from GrandPyBot.messages import Message
-from GrandPyBot.apis import Wiki, GoogleMaps
+from GrandPyBot.apis import Wiki, GoogleMaps, Weather
 from GrandPyBot.views import app
 
 class FlaskBookshelfTests(unittest.TestCase):
@@ -20,6 +20,11 @@ class FlaskBookshelfTests(unittest.TestCase):
     def test_index_by_index_url(self):
         """test /index"""
         status = self.app.get('/index')
+        self.assertEqual(status.status_code, 200)
+
+    def test_contact_url(self):
+        """test /contact"""
+        status = self.app.get('/contact')
         self.assertEqual(status.status_code, 200)
 
     def test_fictive_url(self):
@@ -188,6 +193,27 @@ class GoogleMapsApi(unittest.TestCase):
         self.assertEqual(address, mock_result["results"][0]["formatted_address"])
         self.assertEqual(test_lat, mock_result["results"][0]["geometry"]["location"]["lat"])
         self.assertEqual(test_long, mock_result["results"][0]["geometry"]["location"]["lng"])
+
+class Weather(unittest.TestCase):
+    """class Weather"""
+    instance = Weather()
+
+    @patch('GrandPyBot.apis.get')
+    def test_cloud(self, mock_api):
+        """test cloud"""
+        result = {'coord': {'lon': 3.9, 'lat': 43.57}, 'weather': [{'id': 804, 'main': 'Clouds', \
+        'description': \
+        'overcast clouds', 'icon': '04n'}], 'base': 'stations', 'main': \
+        {'temp': 282.6, 'pressure': 1006, 'humidity': 81, 'temp_min': 282.04, \
+        'temp_max': 283.15}, 'visibility': 10000, 'wind': {'speed': 3.6, 'deg': 270}, \
+        'clouds': {'all': 90}, 'dt': 1573151894, 'sys': {'type': 1, 'id': 6518, 'country': 'FR', \
+        'sunrise': 1573108034, 'sunset': 1573144134}, 'timezone': 3600, 'id': 3006121, \
+        'name': 'Lattes', 'cod': 200}
+        mock_api.return_value.json.return_value = result
+        cloud, temperature, wind = self.instance.get_the_weather('Lattes')
+        self.assertIn(cloud, ('Clouds', 'Sun'))
+        self.assertTrue(-10 <= temperature <= 50)
+        self.assertTrue(0 <= wind <= 150)
 
 if __name__ == '__main__':
     unittest.main()

@@ -42,13 +42,20 @@
     <span class="site-heading-upper text-primary mb-3">Interdit aux - de 99 ans 🚫</span>
     <span class="site-heading-upper text-primary mb-3">Certifié par la Grande Faucheuse ☠️</span>
     <span class="site-heading-upper text-primary mb-3">Approuvé par la Mort en personne 💀</span>
+    {% with messages = get_flashed_messages() %}
     {% if messages %}
-    <div class="alert alert-success" role="alert">
-      This is a success alert—check it out!
+    {% for message in messages %}
+    <div class="alert alert-primary alert-dismissible fade show" role="alert">
+      <span>{{ message }}</span>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
     </div>
+    {% endfor %}
     {% endif %}
+    {% endwith %}
   </h1>
-  
+
 </header>
 
 <body>
@@ -60,7 +67,7 @@
         aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      
+
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav mx-auto">
           <li class="nav-item active px-lg-4">
@@ -70,7 +77,7 @@
           </li>
         </ul>
       </div>
-      
+
     </div>
   </nav>
 
@@ -79,12 +86,12 @@
     <div class="container">
       <div class="intro">
         <img class="intro-img img-fluid mb-3 mb-lg-0 rounded"
-          src="{{ url_for('static', filename='images/Fouras.jpg') }}" alt=""/>
+          src="{{ url_for('static', filename='images/Fouras.jpg') }}" alt="" />
         <div class="intro-text left-0 text-center bg-faded p-5 rounded">
           <h2 class="section-heading mb-4">
             <span class="section-heading-lower">Pose moi une question</span>
           </h2>
-          
+
           <form method="post" action="">
             <div class="input-group mb-3">
               <div class="input-group-prepend">
@@ -106,17 +113,19 @@
     <div class="container">
       <div class="row">
         <div class="col-xl-9 mx-auto">
+          
           <div class="cta-inner text-center rounded">
-            <img src="{{ url_for('static', filename='images/5777749235708dcfedbc0963.jpg') }}">
+              <img src="{{ url_for('static', filename='images/5777749235708dcfedbc0963.jpg') }}" class="img-fluid" alt="Responsive image">
             <p class="mb-0">Votre question et ma réponse s'afficheront ici.</p>
+            
             <div id="map"></div>
             <script
               src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEexokSoTAXo8lWdcuCF1ia1cw8m2fcRk&callback=initMap"
               async defer>
             </script>
           </div>
-          <br/>
-          
+          <br />
+
           <a href="contact"><button type="button" class="btn btn-outline-dark">M'envoyer les infos</button></a>
         </div>
       </div>

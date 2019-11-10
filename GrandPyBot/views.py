@@ -1,11 +1,14 @@
 """views.py"""
 import random
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, redirect, url_for, flash
 from flask_mail import Mail
 from flask_mail import Message as Msg
 from GrandPyBot.apis import Wiki, GoogleMaps, Weather
 from GrandPyBot.messages import Message
+import urllib.request
+import json
 import os
+
 
 
 app = Flask(__name__)
@@ -17,21 +20,10 @@ app.config.update(dict(
     MAIL_USE_TLS = True,
     MAIL_USE_SSL = False,
     MAIL_USERNAME = 'maxim95470@gmail.com',
-    MAIL_PASSWORD = ''
+    MAIL_PASSWORD = 'Maximcleveland1'
 ))
-"""
-mail_settings = {
-    "MAIL_SERVER": 'localhost',
-    "MAIL_PORT": 25,
-    "MAIL_USE_TLS": False,
-    "MAIL_USE_SSL": True,
-    "MAIL_USERNAME": 'maxim95470@gmail.com',
-    "MAIL_PASSWORD": 'Maximcleveland1'
-}
 
-app.config.update(mail_settings)"""
 mail = Mail(app)
-print(mail)
 
 # Config options - Make sure you created a 'config.py' file.
 app.config.from_object('config')
@@ -57,7 +49,7 @@ def search():
     this_image = "../static/images/" + the_weather + ".svg"
     icon_temperature = "../static/images/119085.svg"
     icon_wind = "../static/images/2151268.svg"
-
+    
     # If google maps api returns something not null
     try:
         for key, value in g_m.get_position(the_question).items():
@@ -71,15 +63,20 @@ def search():
             + "</em>" + "<script>$('#map').hide();</script>"
 
     # If media wiki api returns something not null
+    global stock_value_and_history
+    stock_value_and_history = []
     try:
         key, value, history = wiki.get_wiki_result(the_question)
+        stock_value_and_history.append(value)
+        stock_value_and_history.append(history)
 
     # If media wiki api returns something null
     except:
         return "<b>" + "Vous m‘avez posé comme question : " + \
             request.form['search'] + "</b>" + "<br/>" + "<em>" + (random.choice(msg_fails)) \
             + return_to_adress + "</em>"
-
+            
+    
     # If it returns a right information from media wiki and google maps
     if value and g_m.get_position(the_question) != "no result":
         the_text = "<script>initMap(" + str(list_values[1]) + ',' + str(list_values[2]) + ',' + \
@@ -112,13 +109,9 @@ def index():
     """index"""
     return render_template('startbootstrap/index.html')
 
-
 @app.route('/contact', methods=['POST', 'GET'])
 def send_e_mail():
     """contact"""
-    import urllib.request
-    print('ADRESSE IP', request.environ['REMOTE_ADDR'])
-    import json
 
     try:
         with urllib.request.urlopen("https://geoip-db.com/json") as url:
@@ -133,14 +126,16 @@ def send_e_mail():
         this_email = request.form['email']
         try:
             msg = Msg("GrandPyBotte",
-                    sender="maxime.j.pro@free.fr",
+                    sender="maxim95470@gmail.com",
                     recipients=[this_email])
-            msg.body = 'This is a test email' #Customize based on user input
+            msg.body = 'Bonjour jeune homme ! Voici les informations que vous m‘avez demandées.' + \
+            '\r\n\r\n' + stock_value_and_history[0] + '\r\n\r\n' + stock_value_and_history[1]
             mail.send(msg)
-            messages = "Votre email a ete envoye."
+            flash("Votre email a été envoyé", "success")
             return redirect(url_for('index'))
         except:
-            print("no")
+            flash("Erreur.", "warning")
+            return redirect(url_for('index'))
 
     return render_template('startbootstrap/contact.html', city=city, country=country, state=state)
 

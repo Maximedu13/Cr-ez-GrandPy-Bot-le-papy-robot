@@ -71,6 +71,8 @@ class Weather():
         req = requests.get("http://api.openweathermap.org/data/2.5/weather?q=" + question \
         + "&appid=" + self.key_api)
         result = json.loads(req.text)
+        print(result)
         return result["weather"][0]["main"], round(result["main"]["temp"] - 273.15), \
         round(result["wind"]["speed"] * 3.6)
+        
         
