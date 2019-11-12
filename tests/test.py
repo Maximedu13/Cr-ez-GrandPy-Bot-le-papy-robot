@@ -1,10 +1,12 @@
 """unit tests"""
 import unittest
-from unittest.mock import patch, MagicMock
-import re
+from unittest.mock import patch
+from flask_mail import Mail, BadHeaderError, Message as Msg
 from GrandPyBot.messages import Message
 from GrandPyBot.apis import Wiki, GoogleMaps, Weather
 from GrandPyBot.views import app
+from GrandPyBot.other_functions import get_geolocalisation
+from flask import Flask
 
 class FlaskBookshelfTests(unittest.TestCase):
     """TestFlaskApp"""
@@ -82,52 +84,35 @@ class WikiApi(unittest.TestCase):
     address = msg.return_to_adress
     maxDiff = None
 
-    def test_city(self):
-        """test Bonifacio"""
-        messages = "Bonifacio est une commune française située dans la circonscription \
-        départementale de la Corse-du-Sud et le territoire de la collectivité de Corse. \
-        Elle appartient à l'ancienne piève de Bonifacio dont elle était le chef-lieu. \
-        Ses habitants sont les Bonifaciens et les Bonifaciennes."
-        value = None
-        for _, value in self.wiki.get_wiki_result("Bonifacio").items():
-            pass
-        regex = re.search("Bonifacio est une commune française située", value)
-        if regex:
-            print("YES! We have a match!")
-        else:
-            print("No match")
+    def setUp(self):
+        self.title = "Bonifacio"
+        self.summary = "Bonifacio est une commune française située dans la circonscription départementale de la Corse-du-Sud et le territoire de la collectivité de Corse. Elle appartient à l'ancienne piève de Bonifacio dont elle était le chef-lieu."
+        self.history = ""
 
     def test_openclassrooms(self):
         """test Openclassrooms"""
         messages = "La cité Paradis est une voie publique située dans le 10e arrondissement de " + \
         "Paris."
-        self.assertEqual(messages, self.wiki.get_wiki_result("Cité Paradis")["summary"])
+        title, summary, history_section = self.wiki.get_wiki_result("Cité Paradis")
+        self.assertEqual(messages, summary)
 
     # no result from wikipedia api
     @patch('GrandPyBot.apis.wikipediaapi.Wikipedia.page')
     def test_fail(self, result):
         """test fail"""
         result.return_value = ""
-        response = self.wiki.get_wiki_result("knldsskl")
-        self.assertEqual(response, "no result")
+        title, summary, history_section = self.wiki.get_wiki_result("knldsskl")
+        self.assertEqual(summary, "?")
 
     # result from wikipedia api
-    @patch('GrandPyBot.apis.wikipediaapi.Wikipedia.page')
+    @patch('GrandPyBot.apis.get')
     def test_success(self, result):
         """test success"""
-        class WikiPage():
-            """creating a objet Page to return for wikipidia page mock"""
-            def __init__(self):
-                self.title = 'titre'
-                self.summary = 'summary'
-
-        result.return_value = WikiPage()
-        response = self.wiki.get_wiki_result("Openclassrooms")
-
-        self.assertEqual(response, {
-            "title": "titre",
-            "summary": "summary",
-            })
+        result.return_value = ''
+        title, summary, history_section = self.wiki.get_wiki_result("Bonifacio")
+        self.assertEqual(title, self.title)
+        self.assertEqual(self.summary, summary)
+        self.assertNotEqual(self.history, history_section)
 
 class GoogleMapsApi(unittest.TestCase):
     """class GoogleMapsApi"""
@@ -194,26 +179,113 @@ class GoogleMapsApi(unittest.TestCase):
         self.assertEqual(test_lat, mock_result["results"][0]["geometry"]["location"]["lat"])
         self.assertEqual(test_long, mock_result["results"][0]["geometry"]["location"]["lng"])
 
-class Weather(unittest.TestCase):
+class TheWeather(unittest.TestCase):
     """class Weather"""
     instance = Weather()
-
     @patch('GrandPyBot.apis.get')
     def test_cloud(self, mock_api):
         """test cloud"""
-        result = {'coord': {'lon': 3.9, 'lat': 43.57}, 'weather': [{'id': 804, 'main': 'Clouds', \
-        'description': \
-        'overcast clouds', 'icon': '04n'}], 'base': 'stations', 'main': \
-        {'temp': 282.6, 'pressure': 1006, 'humidity': 81, 'temp_min': 282.04, \
-        'temp_max': 283.15}, 'visibility': 10000, 'wind': {'speed': 3.6, 'deg': 270}, \
-        'clouds': {'all': 90}, 'dt': 1573151894, 'sys': {'type': 1, 'id': 6518, 'country': 'FR', \
-        'sunrise': 1573108034, 'sunset': 1573144134}, 'timezone': 3600, 'id': 3006121, \
-        'name': 'Lattes', 'cod': 200}
-        mock_api.return_value.json.return_value = result
         cloud, temperature, wind = self.instance.get_the_weather('Lattes')
-        self.assertIn(cloud, ('Clouds', 'Sun'))
+        self.assertIn(cloud, ('Clouds', 'Sun', 'Rain', 'Clear', 'Drizzle', \
+        'Dust', 'Mist', 'Haze', 'Fog', 'Snow', 'Storm', 'Thunderstorm'))
         self.assertTrue(-10 <= temperature <= 50)
         self.assertTrue(0 <= wind <= 150)
+
+class HistorySection(unittest.TestCase):
+    """class HistorySection"""
+    wiki = Wiki()
+    def setUp(self):
+        self.history = "Histoire \
+        Pas d'histoire \
+        Politique et administration "
+
+    def test_fail(self):
+        test = Wiki.get_history_section(self.history)
+        self.assertEqual(test, "?")
+
+    @patch('GrandPyBot.apis.get')
+    def test_paris(self, mock_api):
+        paris = Wiki.get_history_section("Paris")
+        self.assertTrue(paris)
+        self.assertNotEqual(paris, "")
+
+    @patch('GrandPyBot.apis.get')
+    def test_birmingham(self, mock_api):
+        uk = Wiki.get_history_section("Birmingham")
+        self.assertTrue(uk)
+        self.assertNotEqual(uk, "")
+
+    @patch('GrandPyBot.apis.get')
+    def test_moscou(self, mock_api):
+        moscou = Wiki.get_history_section("moscou")
+        self.assertTrue(moscou)
+        self.assertNotEqual(moscou, "")
+
+class Geolocalisation(unittest.TestCase):
+    """class Geolocalisation"""
+    def setUp(self):
+        self.result = get_geolocalisation()
+    
+    def test_tuple_result(self):
+        self.assertEqual(len(get_geolocalisation()), 3)
+    
+    def test_not_empty(self):
+        self.assertNotEqual(get_geolocalisation()[0], None)
+        self.assertNotEqual(get_geolocalisation()[0], "")
+        self.assertNotEqual(get_geolocalisation()[1], None)
+        self.assertNotEqual(get_geolocalisation()[1], "")
+        self.assertNotEqual(get_geolocalisation()[2], None)
+        self.assertNotEqual(get_geolocalisation()[2], "")
+    
+    def test_my_house_in_lattes(self):
+        self.assertEqual(get_geolocalisation()[0], 'Lattes')
+        self.assertEqual(get_geolocalisation()[1], 'France')
+        self.assertEqual(get_geolocalisation()[2], 'Hérault')
+
+class SendEmail(unittest.TestCase):
+    """SendEmail"""
+    def setUp(self):
+        TESTING = True
+        self.app = Flask(__name__)
+        self.app.config.update(dict(
+            DEBUG = True,
+            MAIL_SERVER = 'smtp.gmail.com',
+            MAIL_PORT = 587,
+            MAIL_USE_TLS = True,
+            MAIL_USE_SSL = False,
+            MAIL_USERNAME = 'maxim95470@gmail.com',
+            MAIL_PASSWORD = ''
+        ))
+        self.app.config.from_object(self)
+        self.mail = Mail(self.app)
+        self.ctx = self.app.test_request_context()
+        self.ctx.push()
+        self.subject = "testing"
+        self.body= "testing"
+        self.sender = "from@example.com"
+        self.recipients = ["to@example.com"]
+
+    def test_bad_header_subject(self):
+        msg = Msg(subject="testing\r\n",
+                  sender=self.sender,
+                  body=self.body,
+                  recipients=self.recipients)
+        self.assertRaises(BadHeaderError, self.mail.send, msg)
+
+    def test_send_without_recipients(self):
+        msg = Msg(subject=self.subject,
+                  recipients=self.recipients,
+                  body=self.body)
+        self.assertRaises(AssertionError, self.mail.send, msg)
+
+    def test_multiline_subject(self):
+        msg = Msg(subject=self.subject,
+                  sender=self.sender,
+                  body=self.body,
+                  recipients=self.recipients)
+        self.assertIn("From: " + self.sender, str(msg))
+        self.assertIn(self.recipients[0], str(msg))
+        self.assertIn(self.subject, str(msg))
 
 if __name__ == '__main__':
     unittest.main()
