@@ -87,6 +87,7 @@ def search():
         return "<b>" + "Vous m‘avez posé comme question : " + request.form['search'] + \
             "</b>" + "<br/>" + "<em>" + (random.choice(msg_fails)) + question + "</em>"
 
+@app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
 def index():
     """index"""
