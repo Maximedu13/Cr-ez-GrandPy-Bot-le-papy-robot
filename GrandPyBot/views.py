@@ -97,12 +97,13 @@ def send_e_mail():
     """contact"""
     # Recup geolocalisation
     city, country, state = get_geolocalisation()
-    if request.method == "POST" and stock_value_and_history:
-        #if post request
-        msg = ()
-        send_mail(msg, stock_value_and_history)
-        return redirect(url_for('index'))
-    """except:
+    try:
+        if request.method == "POST" and stock_value_and_history:
+            #if post request
+            msg = ()
+            send_mail(msg, stock_value_and_history)
+            return redirect(url_for('index'))
+    except:
         flash("Hum. Il semble que vous n'ayez rien cherché, donc je n'ai rien à envoyer.", "error")
         return redirect(url_for('index'))"""
     return render_template('startbootstrap/contact.html', city=city, country=country, state=state)
