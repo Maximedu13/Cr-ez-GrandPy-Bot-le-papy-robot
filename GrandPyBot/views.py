@@ -105,7 +105,7 @@ def send_e_mail():
             return redirect(url_for('index'))
     except:
         flash("Hum. Il semble que vous n'ayez rien cherché, donc je n'ai rien à envoyer.", "error")
-        return redirect(url_for('index'))"""
+        return redirect(url_for('index'))
     return render_template('startbootstrap/contact.html', city=city, country=country, state=state)
 
 if __name__ == "__main__":
