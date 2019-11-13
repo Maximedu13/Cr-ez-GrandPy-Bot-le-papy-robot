@@ -108,4 +108,5 @@ def send_e_mail():
     return render_template('startbootstrap/contact.html', city=city, country=country, state=state)
 
 if __name__ == "__main__":
+    app.debug = True
     app.run()
