@@ -33,13 +33,14 @@ def get_geolocalisation():
 
 def send_mail(msg, stock_value_and_history):
     # send the email
-    this_email = request.form['email']
-    msg = Msg("GrandPyBotte", sender="maxim95470@gmail.com", recipients=[this_email])
-    msg.body = 'Bonjour jeune homme ! Voici les informations que vous m‘avez demandées.' + \
-    '\r\n\r\n' + stock_value_and_history[0] + '\r\n\r\n' + stock_value_and_history[1]
-    mail.send(msg)
-    # message flash success
-    flash("Votre email a été envoyé", "success")
-    """except:
+    try:
+        this_email = request.form['email']
+        msg = Msg("GrandPyBotte", sender="maxim95470@gmail.com", recipients=[this_email])
+        msg.body = 'Bonjour jeune homme ! Voici les informations que vous m‘avez demandées.' + \
+        '\r\n\r\n' + stock_value_and_history[0] + '\r\n\r\n' + stock_value_and_history[1]
+        mail.send(msg)
+        # message flash success
+        flash("Votre email a été envoyé", "success")
+    except:
         # message flash fail
-        flash("Erreur", "warning")"""
+        flash("Erreur", "warning")
