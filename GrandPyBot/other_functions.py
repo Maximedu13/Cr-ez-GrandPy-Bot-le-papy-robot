@@ -5,7 +5,6 @@ import requests
 from flask import request, redirect, url_for, flash, Flask
 from flask_mail import Mail
 from flask_mail import Message as Msg
-import httplib2
 from urllib.parse import urlencode
 
 app = Flask(__name__)
