@@ -6,19 +6,8 @@ from flask_mail import Mail
 from GrandPyBot.apis import Wiki, GoogleMaps, Weather
 from GrandPyBot.messages import Message
 from GrandPyBot.other_functions import get_geolocalisation, send_mail
-from flask_mail import Message as Msg
 
 app = Flask(__name__)
-
-app.config.update(dict(
-        MAIL_SERVER = 'smtp.gmail.com',
-        MAIL_PORT = 587,
-        MAIL_USE_TLS = True,
-        MAIL_USE_SSL = False,
-        MAIL_USERNAME = 'maxim95470@gmail.com',
-        MAIL_PASSWORD = 'Maximcleveland1'
-    ))
-mail = Mail(app)
 
 # Config options - Make sure you created a 'config.py' file.
 app.config.from_object('config')
