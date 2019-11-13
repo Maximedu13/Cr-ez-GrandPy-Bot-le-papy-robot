@@ -2,14 +2,24 @@
 import random
 import urllib.request
 from flask import Flask, request, render_template, redirect, url_for, flash
-from flask_mail import Mail
+from flask_mail import Mail, Message as Msg
 from GrandPyBot.apis import Wiki, GoogleMaps, Weather
 from GrandPyBot.messages import Message
-from GrandPyBot.other_functions import get_geolocalisation, send_mail
+from GrandPyBot.other_functions import get_geolocalisation, send_mail, send_simple_message
 
 app = Flask(__name__)
 
-# Config options - Make sure you created a 'config.py' file.
+app.config.update(dict(
+    DEBUG = True,
+    MAIL_SERVER = 'smtp.gmail.com',
+    MAIL_PORT = 465,
+    MAIL_USE_TLS = False,
+    MAIL_USE_SSL = True,
+    MAIL_USERNAME = 'maxim95470@gmail.com',
+    MAIL_PASSWORD = 'Maximcleveland1',
+))
+
+mail = Mail(app)
 app.config.from_object('config')
 
 @app.route('/search', methods=['POST'])
@@ -86,17 +96,28 @@ def send_e_mail():
     """contact"""
     # Recup geolocalisation
     city, country, state = get_geolocalisation()
-    try:
-        if request.method == "POST" and stock_value_and_history:
-            #if post request
-            msg = ()
-            send_mail(msg, stock_value_and_history)
-            return redirect(url_for('index'))
-    except:
-        flash("Hum. Il semble que vous n'ayez rien cherché, donc je n'ai rien à envoyer.", "error")
+
+    if request.method == "POST" and stock_value_and_history:
+        #if post request
+        msg = ()
+        msg = Msg(
+          'Hello',
+        sender = 'maxim95470@gmail.com',
+        recipients = ['maxime_34@yahoo.com'])
+        msg.body = "This is the email body"
+        msg.html = '<b>HTML</b> body 1234'
+        # Config options - Make sure you created a 'config.py' file.
+        #send_mail(msg, stock_value_and_history)
+        #send_a_mail('maxim95470@gmail.com', 'maxim95470@gmail.com', 'dsf', 'sdffds', 'sdffds')
+        #send_simple_message('maxime_34@yahoo.com')
+        with app.app_context():
+            mail.send(msg)
+        flash("Votre email a été envoyé", "success")
         return redirect(url_for('index'))
+    """except:
+        flash("Hum. Il semble que vous n'ayez rien cherché, donc je n'ai rien à envoyer.", "error")
+        return redirect(url_for('index'))"""
     return render_template('startbootstrap/contact.html', city=city, country=country, state=state)
 
 if __name__ == "__main__":
-    app.debug = True
     app.run()
