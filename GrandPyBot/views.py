@@ -11,7 +11,6 @@ from flask_mail import Message as Msg
 app = Flask(__name__)
 
 app.config.update(dict(
-        DEBUG = True,
         MAIL_SERVER = 'smtp.gmail.com',
         MAIL_PORT = 587,
         MAIL_USE_TLS = True,
