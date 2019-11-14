@@ -5,7 +5,7 @@ from flask import Flask, request, render_template, redirect, url_for, flash
 from flask_mail import Mail, Message as Msg
 from GrandPyBot.apis import Wiki, GoogleMaps, Weather
 from GrandPyBot.messages import Message
-from GrandPyBot.other_functions import get_geolocalisation, send_mail, send_simple_message
+from GrandPyBot.other_functions import get_geolocalisation
 
 app = Flask(__name__)
 
