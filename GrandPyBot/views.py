@@ -105,8 +105,8 @@ def send_e_mail():
           'GrandPyBotte',
         sender = 'maxim95470@gmail.com',
         recipients = [this_email])
-        msg.html = '<b>Bonjour jeune homme, coici les informations que vous m‘avez demandées. </b>' + \
-        '<br/>' + stock_value_and_history[0] + '<br/>' + stock_value_and_history[1]
+        msg.html = '<b>Bonjour jeune homme, voici les informations que vous m‘avez demandées. </b>' + \
+        '<br/>'*2 + stock_value_and_history[0] + '<br/>'*3 + stock_value_and_history[1]
         # Config options - Make sure you created a 'config.py' file.
         #send_mail(msg, stock_value_and_history)
         #send_a_mail('maxim95470@gmail.com', 'maxim95470@gmail.com', 'dsf', 'sdffds', 'sdffds')
