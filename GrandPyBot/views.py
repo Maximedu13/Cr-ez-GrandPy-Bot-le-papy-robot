@@ -99,13 +99,14 @@ def send_e_mail():
 
     if request.method == "POST" and stock_value_and_history:
         #if post request
-        msg = ()
+        #msg = ()
+        this_email = request.form['email']
         msg = Msg(
-          'Hello',
+          'GrandPyBotte',
         sender = 'maxim95470@gmail.com',
-        recipients = ['maxime_34@yahoo.com'])
-        msg.body = "This is the email body"
-        msg.html = '<b>HTML</b> body 1234'
+        recipients = [this_email])
+        msg.html = '<b>Bonjour jeune homme, voici </b> Bonjour jeune homme ! Voici les informations que vous m‘avez demandées.' + \
+        '\r\n\r\n' + stock_value_and_history[0] + '\r\n\r\n' + stock_value_and_history[1]
         # Config options - Make sure you created a 'config.py' file.
         #send_mail(msg, stock_value_and_history)
         #send_a_mail('maxim95470@gmail.com', 'maxim95470@gmail.com', 'dsf', 'sdffds', 'sdffds')

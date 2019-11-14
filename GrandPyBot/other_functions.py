@@ -77,7 +77,7 @@ def send_a_mail(to_address, from_address, subject, plaintext, html):
 			"subject": "KSNDSKLDKNDLASLNKDSANKL",
 			"text": "Testing some Mailgun awesomness!"})
     print(r)
-    return r"""
+    return r
 
 def send_simple_message(recipient):
     http = httplib2.Http()
@@ -97,4 +97,4 @@ def send_simple_message(recipient):
 
     if resp.status != 200:
         raise RuntimeError(
-            'Mailgun API error: {} {}'.format(resp.status, content))
+            'Mailgun API error: {} {}'.format(resp.status, content))"""
