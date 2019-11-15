@@ -1,4 +1,5 @@
 """views.py"""
+#!/usr/bin/env python
 import random
 import urllib.request
 from flask import Flask, request, render_template, redirect, url_for, flash
@@ -99,11 +100,20 @@ def send_e_mail():
     if request.method == "POST" and stock_value_and_history:
         #if post request
         this_email = request.form['email']
-        send_simple_message(this_email, stock_value_and_history)
-        return redirect(url_for('index'))
-        """except:
+        try:
+            msg = Msg(
+            'GrandPyBotte',
+            sender = 'maxim95470@gmail.com',
+            recipients = [this_email])
+            msg.html = '<b>Bonjour jeune homme, voici les informations que vous m‘avez demandées. </b>' + \
+            '<br/>'*2 + stock_value_and_history[0] + '<br/>'*3 + stock_value_and_history[1]
+            with app.app_context():
+                mail.send(msg)
+            flash("Votre email a été envoyé", "success")
+            return redirect(url_for('index'))
+        except:
             flash("Hum. Il semble qu'il y ait eu une erreur.", "error")
-            return redirect(url_for('index'))"""
+            return redirect(url_for('index'))
     return render_template('startbootstrap/contact.html', city=city, country=country, state=state)
 
 if __name__ == "__main__":
