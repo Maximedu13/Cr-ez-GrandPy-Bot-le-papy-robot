@@ -5,7 +5,7 @@ from flask import Flask, request, render_template, redirect, url_for, flash
 from flask_mail import Mail, Message as Msg
 from GrandPyBot.apis import Wiki, GoogleMaps, Weather
 from GrandPyBot.messages import Message
-from GrandPyBot.other_functions import get_geolocalisation
+from GrandPyBot.other_functions import get_geolocalisation, send_simple_message
 
 app = Flask(__name__)
 
@@ -96,28 +96,15 @@ def send_e_mail():
     """contact"""
     # Recup geolocalisation
     city, country, state = get_geolocalisation()
-
     if request.method == "POST" and stock_value_and_history:
         #if post request
-        #msg = ()
         this_email = request.form['email']
-        msg = Msg(
-          'GrandPyBotte',
-        sender = 'maxim95470@gmail.com',
-        recipients = [this_email])
-        msg.html = '<b>Bonjour jeune homme, voici les informations que vous m‘avez demandées. </b>' + \
-        '<br/>'*2 + stock_value_and_history[0] + '<br/>'*3 + stock_value_and_history[1]
-        # Config options - Make sure you created a 'config.py' file.
-        #send_mail(msg, stock_value_and_history)
-        #send_a_mail('maxim95470@gmail.com', 'maxim95470@gmail.com', 'dsf', 'sdffds', 'sdffds')
-        #send_simple_message('maxime_34@yahoo.com')
-        with app.app_context():
-            mail.send(msg)
-        flash("Votre email a été envoyé", "success")
-        return redirect(url_for('index'))
-    """except:
-        flash("Hum. Il semble que vous n'ayez rien cherché, donc je n'ai rien à envoyer.", "error")
-        return redirect(url_for('index'))"""
+        try: 
+            send_simple_message(this_email, stock_value_and_history)
+            return redirect(url_for('index'))
+        except:
+            flash("Hum. Il semble qu'il y ait eu une erreur.", "error")
+            return redirect(url_for('index'))
     return render_template('startbootstrap/contact.html', city=city, country=country, state=state)
 
 if __name__ == "__main__":
