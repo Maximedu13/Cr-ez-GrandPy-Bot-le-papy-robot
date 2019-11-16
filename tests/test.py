@@ -236,11 +236,12 @@ class Geolocalisation(unittest.TestCase):
         self.assertNotEqual(get_geolocalisation()[1], "")
         self.assertNotEqual(get_geolocalisation()[2], None)
         self.assertNotEqual(get_geolocalisation()[2], "")
-    
+    """
     def test_my_house_in_lattes(self):
         self.assertEqual(get_geolocalisation()[0], 'Lattes')
         self.assertEqual(get_geolocalisation()[1], 'France')
         self.assertEqual(get_geolocalisation()[2], 'Hérault')
+    """
 
 class SendEmail(unittest.TestCase):
     """SendEmail"""
