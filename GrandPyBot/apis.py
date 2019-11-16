@@ -55,7 +55,7 @@ class Wiki():
 class GoogleMaps():
     """ google maps api """
     def __init__(self):
-        self.key_api = "AIzaSyDEexokSoTAXo8lWdcuCF1ia1cw8m2fcRk"
+        self.key_api = ""
 
     def get_position(self, question):
         """ main method """
@@ -84,7 +84,7 @@ class GoogleMaps():
 class Weather():
     """ https://openweathermap.org/api """
     def __init__(self):
-        self.key_api = "3cf63bac22ea72262bb10f739247a998"
+        self.key_api = ""
 
     def get_the_weather(self, question):
         try:
