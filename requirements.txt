@@ -69,7 +69,7 @@ psycopg2-binary==2.8.4
 ptyprocess==0.5.2
 py==1.8.0
 pygeoip==0.3.2
-Pygments==2.2.0
+Pygments==2.7.4
 pylint==2.2.2
 pyparsing==2.4.2
 pytest==5.2.2
