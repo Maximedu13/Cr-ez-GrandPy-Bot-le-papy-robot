@@ -67,7 +67,7 @@ pluggy==0.13.0
 prompt-toolkit==1.0.15
 psycopg2-binary==2.8.4
 ptyprocess==0.5.2
-py==1.8.0
+py==1.10.0
 pygeoip==0.3.2
 Pygments==2.2.0
 pylint==2.2.2
